@@ -48,8 +48,8 @@ RUN chown -R noroot:noroot /app
 USER noroot
 
 # Expose port
-EXPOSE 5001
+EXPOSE 8080
 
 # Command to run the application
-CMD ["python", "-m", "flask", "--app", "src.main:app", "run", "--host", "0.0.0.0", "--port", "5001"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "src.main:app"]
 
