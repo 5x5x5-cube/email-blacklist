@@ -5,11 +5,13 @@ services:
       platforms:
         - linux/amd64
     ports:
-      - "80:8080"
+      - "5001:8080"
     depends_on:
       - db
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/blacklist_db
 
   db:
     image: postgres:14

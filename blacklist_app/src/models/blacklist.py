@@ -1,4 +1,13 @@
 from marshmallow import Schema, fields, validate, ValidationError
+import uuid as uuid_module
+
+
+def validate_uuid_format(value):
+    """Validate that a string is a valid UUID format"""
+    try:
+        uuid_module.UUID(value)
+    except (ValueError, AttributeError, TypeError):
+        raise ValidationError('Not a valid UUID format.')
 
 
 class BlacklistCreateSchema(Schema):
@@ -9,9 +18,13 @@ class BlacklistCreateSchema(Schema):
         "required": "Email is required",
         "invalid": "Invalid email format"
     })
-    app_uuid = fields.String(required=True, error_messages={
-        "required": "App UUID is required"
-    })
+    app_uuid = fields.String(
+        required=True, 
+        validate=validate_uuid_format,
+        error_messages={
+            "required": "App UUID is required"
+        }
+    )
     blocked_reason = fields.String(
         required=False, 
         allow_none=True,
