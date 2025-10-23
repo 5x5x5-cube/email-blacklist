@@ -44,7 +44,9 @@ env/
 htmlcov/
 .tox/
 coverage.xml
+junit.xml
 *.cover
+.pytest/
 
 # Database
 *.db
