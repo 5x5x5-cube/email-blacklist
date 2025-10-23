@@ -3,7 +3,7 @@
 # All environment variables are expected to be set in .env file
 # See .env.example for required variables
 
-.PHONY: setup install run test clean docker-build docker-run docker-push
+.PHONY: setup install run test test-unit test-cov test-ci clean docker-build docker-run docker-push docker-compose-up docker-compose-build docker-compose-down
 
 setup:
 	@echo "Setting up the project..."
@@ -29,6 +29,10 @@ test-unit:
 test-cov:
 	@echo "Running tests with coverage..."
 	@set -a && source .env.test && set +a && ./venv/bin/poetry run pytest --cov=src tests/ --cov-report=term-missing --cov-report=xml
+
+test-ci:
+	@echo "Running tests for CI..."
+	@./venv/bin/poetry run pytest tests/ -v --cov=src --cov-report=xml --cov-report=term --junitxml=junit.xml || poetry run pytest tests/ -v --cov=src --cov-report=xml --cov-report=term --junitxml=junit.xml
 
 clean:
 	@echo "Cleaning up..."
