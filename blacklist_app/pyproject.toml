@@ -3,7 +3,6 @@ name = "blacklist_app"
 version = "0.1.0"
 description = "Microservice for managing email blacklist in the system"
 authors = ["andres.pena@uniandes.edu.co"]
-readme = "README.md"
 packages = [{include = "src"}]
 
 [tool.poetry.dependencies]

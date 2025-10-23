@@ -7,28 +7,28 @@
 
 setup:
 	@echo "Setting up the project..."
-	@pip install poetry
-	@poetry install
+	@python3 -m pip install --user poetry || echo "Poetry already installed or using system poetry"
+	@./venv/bin/poetry install || poetry install
 
 install:
 	@echo "Installing dependencies..."
-	@poetry install
+	@./venv/bin/poetry install || poetry install
 
 run:
 	@echo "Running the application..."
-	@set -a && source .env && set +a && poetry run flask --app src.main:app run --reload --host 0.0.0.0 --port 5001
+	@set -a && source .env && set +a && ./venv/bin/poetry run flask --app src.main:app run --reload --host 0.0.0.0 --port 5001
 
 test:
 	@echo "Running tests..."
-	@set -a && source .env.test && set +a && poetry run pytest
+	@set -a && source .env.test && set +a && ./venv/bin/poetry run pytest
 
 test-unit:
 	@echo "Running unit tests..."
-	@set -a && source .env.test && set +a && poetry run pytest tests/unit
+	@set -a && source .env.test && set +a && ./venv/bin/poetry run pytest tests/unit
 
 test-cov:
 	@echo "Running tests with coverage..."
-	@set -a && source .env.test && set +a && poetry run pytest --cov=src tests/ --cov-report=term-missing --cov-report=xml
+	@set -a && source .env.test && set +a && ./venv/bin/poetry run pytest --cov=src tests/ --cov-report=term-missing --cov-report=xml
 
 clean:
 	@echo "Cleaning up..."
