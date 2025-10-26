@@ -1,22 +1,38 @@
 version: 0.2
 
+env:
+  variables:
+    PROJECT_DIR: blacklist_app
+    UNIT_TESTS_DIR: blacklist_app/tests/unit
+    ARTIFACT_NAME: artifact.zip
+
 phases:
   install:
     runtime-versions:
-      python: 3.8
+      python: 3.10
     commands:
-      - pip install -r requirements.txt
-      - pip install pytest
+      - python -m pip install --upgrade pip
+      - python -m pip install poetry
+      - cd ${PROJECT_DIR}
+      - poetry config virtualenvs.create false
+      - poetry install --no-interaction --no-ansi
+      - cd -
+
   pre_build:
     commands:
       - echo "Ejecutando pruebas unitarias..."
-      - pytest tests/
+      - if [ ! -f ${PROJECT_DIR}/.env ] && [ -f ${PROJECT_DIR}/.env.example ]; then cp ${PROJECT_DIR}/.env.example ${PROJECT_DIR}/.env; fi
+      - export PYTHONPATH=${PWD}/${PROJECT_DIR}/src:$PYTHONPATH
+      - pytest -q ${UNIT_TESTS_DIR}
+
   build:
     commands:
       - echo "Generando artefacto..."
-      - zip -r artifact.zip .
+      - mkdir -p package
+      - cp -r ${PROJECT_DIR} package/
+      - cd package && zip -r ../${ARTIFACT_NAME} .
 
 artifacts:
   files:
-    - artifact.zip
+    - ${ARTIFACT_NAME}
   discard-paths: yes
