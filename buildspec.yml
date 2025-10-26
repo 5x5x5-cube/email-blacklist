@@ -23,7 +23,7 @@ phases:
       - echo "Ejecutando pruebas unitarias..."
       - if [ ! -f ${PROJECT_DIR}/.env ] && [ -f ${PROJECT_DIR}/.env.example ]; then cp ${PROJECT_DIR}/.env.example ${PROJECT_DIR}/.env; fi
       - export PYTHONPATH=${PWD}/${PROJECT_DIR}/src:$PYTHONPATH
-      - pytest -q ${UNIT_TESTS_DIR}
+      - python -m pytest -q ${UNIT_TESTS_DIR}
 
   build:
     commands:
