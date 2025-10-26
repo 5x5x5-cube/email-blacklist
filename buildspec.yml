@@ -19,20 +19,25 @@ phases:
       - cd -
 
   pre_build:
-  commands:
-    - echo "Ejecutando pruebas unitarias..."
-    - if [ ! -f ${PROJECT_DIR}/.env ] && [ -f ${PROJECT_DIR}/.env.example ]; then cp ${PROJECT_DIR}/.env.example ${PROJECT_DIR}/.env; fi
-    - export PYTHONPATH=${PWD}/${PROJECT_DIR}/src:$PYTHONPATH
-    - python -c "import sys,site;print(sys.executable);print(sys.version);print(site.getsitepackages())"
-    - python -m pip show pytest || true
-    - python -m pytest -q ${UNIT_TESTS_DIR}
+    commands:
+      - echo "Ejecutando pruebas unitarias..."
+      - |
+        if [ ! -f "${PROJECT_DIR}/.env" ] && [ -f "${PROJECT_DIR}/.env.example" ]; then
+          cp "${PROJECT_DIR}/.env.example" "${PROJECT_DIR}/.env"
+        fi
+      - export PYTHONPATH="${PWD}/${PROJECT_DIR}/src:${PYTHONPATH}"
+      - python -c "import sys,site;print(sys.executable);print(sys.version);print(site.getsitepackages())"
+      - python -m pip show pytest || true
+      - python -m pytest -q ${UNIT_TESTS_DIR}
 
   build:
     commands:
       - echo "Generando artefacto..."
       - mkdir -p package
       - cp -r ${PROJECT_DIR} package/
-      - cd package && zip -r ../${ARTIFACT_NAME} .
+      - cd package
+      - zip -r "../${ARTIFACT_NAME}" .
+      - cd -
 
 artifacts:
   files:
