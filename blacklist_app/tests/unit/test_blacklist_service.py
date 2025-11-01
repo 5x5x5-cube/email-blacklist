@@ -31,7 +31,7 @@ class TestBlacklistService:
         # Execute
         service = BlacklistService()
         result = service.add_to_blacklist(
-            email="test2@example.com",
+            email="test@example.com",
             app_uuid="app-uuid",
             blocked_reason="Test reason",
             ip_address="127.0.0.1"
@@ -39,7 +39,7 @@ class TestBlacklistService:
         
         # Assert
         assert "message" in result
-        assert "test3@example.com" in result["message"]
+        assert "test@example.com" in result["message"]
         assert result["email"] == "test@example.com"
         assert result["id"] == "test-id"
         assert "created_at" in result
