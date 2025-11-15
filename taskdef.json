@@ -1,5 +1,5 @@
 {
-  "family": "blacklist",
+  "family": "blacklist-v2",
   "executionRoleArn": "arn:aws:iam::982590066260:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
