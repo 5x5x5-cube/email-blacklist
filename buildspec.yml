@@ -99,10 +99,7 @@ phases:
                   ContainerName: "blacklist-container"
                   ContainerPort: 8080
         Hooks:
-          - BeforeInstall: "scripts/stop_application"
-          - AfterInstall: "scripts/start_application"
-          - ApplicationStart: "scripts/start_application"
-          - ApplicationStop: "scripts/stop_application"
+          - AfterAllowTestTraffic: "scripts/start_application"
         EOF
 
       - echo "Haciendo scripts ejecutables..."
