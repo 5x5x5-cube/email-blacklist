@@ -51,59 +51,8 @@ phases:
       - echo "Creando CloudWatch Log Group si no existe..."
       - aws logs create-log-group --log-group-name "/ecs/blacklist" --region ${REGION} || echo "Log group ya existe"
 
-      - echo "Creando taskdef.json para CodeDeploy..."
-      - |
-        cat <<EOF > taskdef.json
-        {
-          "family": "blacklist",
-          "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/ecsTaskExecutionRole",
-          "taskRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/ecsTaskRole",
-          "networkMode": "awsvpc",
-          "requiresCompatibilities": ["FARGATE"],
-          "cpu": "256",
-          "memory": "512",
-          "containerDefinitions": [
-            {
-              "name": "${CONTAINER_NAME}",
-              "image": "${REPO_URI}:${IMAGE_TAG}",
-              "essential": true,
-              "portMappings": [
-                {
-                  "containerPort": 8080,
-                  "protocol": "tcp"
-                }
-              ],
-              "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                  "awslogs-group": "/ecs/blacklist",
-                  "awslogs-region": "${REGION}",
-                  "awslogs-stream-prefix": "ecs"
-                }
-              }
-            }
-          ]
-        }
-        EOF
-
-      - echo "Creando appspec.yaml para CodeDeploy..."
-      - |
-        cat > appspec.yaml << 'EOF'
-        version: 0.0
-        Resources:
-          - TargetService:
-              Type: AWS::ECS::Service
-              Properties:
-                TaskDefinition: <TASK_DEFINITION>
-                LoadBalancerInfo:
-                  ContainerName: "blacklist-container"
-                  ContainerPort: 8080
-        Hooks:
-          - AfterAllowTestTraffic: "scripts/start_application"
-        EOF
-
-      - echo "Haciendo scripts ejecutables..."
-      - chmod +x scripts/*
+      - echo "Actualizando taskdef.json con nueva imagen..."
+      - sed -i "s|<IMAGE1_URI>|${REPO_URI}:${IMAGE_TAG}|g" taskdef.json
 
       - echo "Validando archivos generados..."
       - echo "=== taskdef.json ==="
@@ -117,4 +66,3 @@ artifacts:
   files:
     - appspec.yaml
     - taskdef.json
-    - scripts/**/*
