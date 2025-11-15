@@ -54,16 +54,15 @@ phases:
       - echo "Actualizando taskdef.json con nueva imagen..."
       - sed -i "s|<IMAGE1_URI>|${REPO_URI}:${IMAGE_TAG}|g" taskdef.json
 
-      - echo "Validando taskdef.json..."
+      - echo "Validando archivos generados..."
+      - echo "=== taskdef.json ==="
       - cat taskdef.json
+      - echo "=== appspec.yaml ==="
+      - cat appspec.yaml
+      - echo "Validando JSON..."
       - python -m json.tool taskdef.json > /dev/null && echo "✅ taskdef.json válido" || (echo "❌ taskdef.json inválido" && exit 1)
-      
-      - echo "Registrando nueva Task Definition..."
-      - aws ecs register-task-definition --cli-input-json file://taskdef.json
-      
-      - echo "Actualizando servicio ECS..."
-      - aws ecs update-service --cluster practical-fox-feymr8 --service blacklist-service-rolling --task-definition blacklist-v2 --force-new-deployment
 
 artifacts:
   files:
+    - appspec.yaml
     - taskdef.json
