@@ -53,6 +53,8 @@ phases:
         cat <<EOF > taskdef.json
         {
           "family": "blacklist",
+          "executionRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/ecsTaskExecutionRole",
+          "taskRoleArn": "arn:aws:iam::${ACCOUNT_ID}:role/ecsTaskRole",
           "networkMode": "awsvpc",
           "requiresCompatibilities": ["FARGATE"],
           "cpu": "256",
@@ -67,7 +69,15 @@ phases:
                   "containerPort": 8080,
                   "protocol": "tcp"
                 }
-              ]
+              ],
+              "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                  "awslogs-group": "/ecs/blacklist",
+                  "awslogs-region": "${REGION}",
+                  "awslogs-stream-prefix": "ecs"
+                }
+              }
             }
           ]
         }
@@ -76,12 +86,12 @@ phases:
       - echo "Creando appspec.yaml para CodeDeploy..."
       - |
         cat <<EOF > appspec.yaml
-        version: 1
+        version: 0.0
         Resources:
           - TargetService:
               Type: AWS::ECS::Service
               Properties:
-                TaskDefinition: taskdef.json
+                TaskDefinition: <TASK_DEFINITION>
                 LoadBalancerInfo:
                   ContainerName: "${CONTAINER_NAME}"
                   ContainerPort: 8080
@@ -91,4 +101,4 @@ artifacts:
   files:
     - appspec.yaml
     - taskdef.json
-  discard-paths: yes
+    - scripts/**/*
