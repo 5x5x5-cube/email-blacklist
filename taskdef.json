@@ -1,7 +1,6 @@
 {
   "family": "blacklist",
   "executionRoleArn": "arn:aws:iam::982590066260:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::982590066260:role/ecsTaskRole",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "1024",
