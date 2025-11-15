@@ -1,0 +1,5 @@
+#!/bin/bash
+# Start application hook for CodeDeploy ECS deployment
+echo "Starting application..."
+# Add any post-deployment validation logic here
+exit 0
