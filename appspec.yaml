@@ -3,7 +3,7 @@ Resources:
   - TargetService:
       Type: AWS::ECS::Service
       Properties:
-        TaskDefinition: arn:aws:ecs:us-east-1:982590066260:task-definition/blacklist-v2:1
+        TaskDefinition: <TASK_DEFINITION>
         LoadBalancerInfo:
           ContainerName: blacklist-container
           ContainerPort: 8080
