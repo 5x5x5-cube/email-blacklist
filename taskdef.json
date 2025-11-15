@@ -16,6 +16,24 @@
           "protocol": "tcp"
         }
       ],
+      "environment": [
+        {
+          "name": "BEARER_TOKEN",
+          "value": "6tFpnHrro6wjsZnd8roWQMsTffBPcitQy2BgeOBQMUQ"  
+        },
+        {
+          "name": "DATABASE_URL",
+          "value": "postgresql+psycopg2://postgres:panama2025@database-1.cejuea6k8hzl.us-east-1.rds.amazonaws.com:5432/postgres"
+        },
+        {
+          "name": "FLASK_DEBUG",
+          "value": "1"
+        },
+        {
+          "name": "FLASK_ENV",
+          "value": "development"
+        }
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
