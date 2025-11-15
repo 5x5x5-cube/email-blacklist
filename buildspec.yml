@@ -57,13 +57,12 @@ phases:
       - echo "Validando archivos generados..."
       - echo "=== taskdef.json ==="
       - cat taskdef.json
-      - echo "=== appspec.json ==="
-      - cat appspec.json
+      - echo "=== appspec.yaml ==="
+      - cat appspec.yaml
       - echo "Validando JSON..."
       - python -m json.tool taskdef.json > /dev/null && echo "✅ taskdef.json válido" || (echo "❌ taskdef.json inválido" && exit 1)
-      - python -m json.tool appspec.json > /dev/null && echo "✅ appspec.json válido" || (echo "❌ appspec.json inválido" && exit 1)
 
 artifacts:
   files:
-    - appspec.json
+    - appspec.yaml
     - taskdef.json
