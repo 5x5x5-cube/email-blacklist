@@ -7,4 +7,3 @@ Resources:
         LoadBalancerInfo:
           ContainerName: blacklist-container
           ContainerPort: 8080
-        PlatformVersion: LATEST
