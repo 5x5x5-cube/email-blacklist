@@ -1,0 +1,20 @@
+{
+  "family": "blacklist",
+  "containerDefinitions": [
+    {
+      "name": "blacklist-container",
+      "image": "<IMAGE_URI_FROM_CODEBUILD>",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "cpu": "256",
+  "memory": "512"
+}
