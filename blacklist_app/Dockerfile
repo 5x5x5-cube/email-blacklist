@@ -1,4 +1,5 @@
-FROM python:3.11-slim AS base
+# Stage base
+FROM public.ecr.aws/docker/library/python:3.11-slim AS base
 
 WORKDIR /app
 
@@ -21,8 +22,8 @@ RUN poetry config virtualenvs.create false
 # Instalamos las dependencias que necesitamos, sin instalar el proyecto actual
 RUN poetry install --only main --no-root
 
-# Creamos un nuevo stage con el alias runner
-FROM python:3.11-slim AS runner
+# Stage runner
+FROM public.ecr.aws/docker/library/python:3.11-slim AS runner
 
 # Definimos la misma carpeta de trabajo
 WORKDIR /app
