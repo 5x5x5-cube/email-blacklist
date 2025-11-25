@@ -34,6 +34,9 @@ ENV PYTHONUNBUFFERED=1
 COPY --from=base /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY --from=base /usr/local/bin /usr/local/bin
 
+# Copiar el archivo de configuración de New Relic
+COPY ./newrelic.ini /app/newrelic.ini
+
 # Copiamos el código de la aplicación
 COPY --from=base /app /app
 COPY ./src /app/src
@@ -52,4 +55,3 @@ EXPOSE 8080
 
 # Command to run the application
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "src.main:app"]
-

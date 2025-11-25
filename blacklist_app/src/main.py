@@ -1,4 +1,5 @@
 import os
+import newrelic.agent
 from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -6,11 +7,19 @@ from dotenv import load_dotenv
 from .db.database import init_db, create_tables
 from .routes.blacklist_router import blacklist_bp
 
-# Load environment variables (if .env file exists)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+NEW_RELIC_CONFIG = os.path.join(BASE_DIR, "newrelic.ini")
+
+newrelic.agent.initialize(NEW_RELIC_CONFIG)
+
+# Load environment variables
 load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
+
+# Wrap app with New Relic WSGI wrapper
+app = newrelic.agent.WSGIApplicationWrapper(app)
 
 # Configure CORS
 CORS(app, resources={
@@ -49,5 +58,4 @@ def internal_error(error):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
-
+    app.run(host='0.0.0.0', port=8080, debug=True)
