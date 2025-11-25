@@ -32,6 +32,18 @@
         {
           "name": "FLASK_ENV",
           "value": "development"
+        },
+        {
+          "name": "NEW_RELIC_CONFIG_FILE",
+          "value": "/app/newrelic.ini"
+        },
+        {
+          "name": "NEW_RELIC_APP_NAME",
+          "value": "blacklist-app-cloud"
+        },
+        {
+          "name": "NEW_RELIC_LICENSE_KEY",
+          "value": "0b7772ff6e60e9fb002a015e321dc30eFFFFNRAL"
         }
       ],
       "logConfiguration": {
